@@ -1,1 +1,6 @@
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/articles_app'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+SQLALCHEMY_DATABASE_URI = os.getenv('DB_URI')
+

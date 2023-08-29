@@ -1,3 +1,4 @@
+import paginate
 from flask import jsonify, Response, request
 from flask.json import dumps
 
@@ -34,17 +35,19 @@ def update_article(pk=None):
     return Response(schema.dumps(data), status=201)
 
 
-@article_bp.route("article", methods=['GET'])
+@article_bp.route("", methods=['GET'])
 def get_all_articles():
-    articles = db.session.query(Article).all()
+    page = request.args.get('page',1,type=int)
+    per_page = request.args.get('per_page',5,type=int)
+    articles = db.session.query(Article).filter_by().paginate(page=page, per_page=per_page)
     serializer = ArticleSchema(many=True)
     data = serializer.dump(articles)
     return Response(dumps(data), 200)
 
 
-@article_bp.route("article/<int:id>", methods=['GET'])
+@article_bp.route("/<int:id>", methods=['GET'])
 def get_id_articles(id):
-    article = Article.get_by_id(id)
+    article = db.session.query(Article).get_or_404(id)
     serializer = ArticleSchema()
     data = serializer.dump(article)
     return jsonify(data), 200
@@ -52,7 +55,7 @@ def get_id_articles(id):
 
 @article_bp.route("<int:id>", methods=['DELETE'])
 def delete_article(id):
-    article = Article.get_by_id(id)
+    article = db.session.query(Article).get_or_404(id)
     article.status = ArticleStatusEnum.DELETED.value
     db.session.commit()
     return Response(status=204)
@@ -60,7 +63,7 @@ def delete_article(id):
 
 @article_bp.route("<int:id>/publication", methods=['POST'])
 def publish_article(id):
-    article = Article.get_by_id(id)
+    article = db.session.query(Article).get_or_404(id)
     data = request.get_json()
     schema = ArticlePublicationSchema()
     cleaned_data = schema.load(data)

@@ -10,7 +10,7 @@ from apps.articles.models import Article
 from apps.articles.schemas import ArticleSchema, ArticlePublicationSchema, ArticleFilterSchema
 from apps.core.extensions import db
 from flask import Blueprint
-from apps.Exceptions import NotFoundError, Notimplemented, InternalServerError, RequestEntityTooLarge, BadRequest
+from apps.exceptions import NotFoundError, Notimplemented, InternalServerError, RequestEntityTooLarge, BadRequest
 
 
 article_bp = Blueprint("article", __name__, url_prefix='/articles/')

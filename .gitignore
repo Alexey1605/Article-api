@@ -1,0 +1,5 @@
+.env
+env.sh
+.idea
+*.pyc
+__pycache__/

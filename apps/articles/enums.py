@@ -16,7 +16,7 @@ class ArticleColumnEnum(Enum):
     STATUS = 'status'
 
     @classmethod
-    def get_values(cls) -> 'list[str]':
+    def get_values(cls) -> list[str]:
         return [item.value for item in cls]
 
 

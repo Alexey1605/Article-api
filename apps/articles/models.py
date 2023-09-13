@@ -15,7 +15,7 @@ class Article(db.Model):
     status = db.Column(db.String, nullable=False, default=ArticleStatusEnum.DRAFT.value)
 
     def __repr__(self):
-        return f'<User {self.title!r}>'
+        return f'<User {self.title}>'
 
 
 

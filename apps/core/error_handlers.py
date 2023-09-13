@@ -1,5 +1,4 @@
 import json
-
 from flask import Response
 from marshmallow import ValidationError
 from webargs.flaskparser import parser

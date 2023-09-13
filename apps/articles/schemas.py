@@ -1,6 +1,5 @@
-from marshmallow import Schema, fields, validates, ValidationError, validate
+from marshmallow import Schema, fields
 from marshmallow.validate import OneOf
-from werkzeug.exceptions import UnprocessableEntity
 from apps.articles.enums import ArticleColumnEnum
 
 
@@ -13,8 +12,8 @@ class ArticleSchema(Schema):
     id = fields.Integer(dump_only=True)
     title = fields.String(required=True)
     text = fields.String(required=True)
-    created_date = fields.DateTime(dump_only=True, format='%Y-%m-%dT%H:%M:%S%z')
-    updated_date = fields.DateTime(dump_only=True, format='%Y-%m-%dT%H:%M:%S%z')
+    created_date = fields.DateTime(dump_only=True, format='%Y-%m-%d %H:%M:%S')
+    updated_date = fields.DateTime(dump_only=True, format='%Y-%m-%d %H:%M:%S')
     status = fields.String(dump_only=True)
 
     class Meta:

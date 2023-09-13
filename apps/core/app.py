@@ -1,4 +1,3 @@
-
 from flask import Flask
 from apps.articles.views import article_bp
 from apps.core.error_handlers import handle_exceptions

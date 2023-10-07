@@ -27,7 +27,7 @@ def create(session):
 @article_bp.route("<int:pk>", methods=['PUT'])
 @provide_session
 def update_article(session, pk=None):
-    article = session.query(Article).filter(Article.id == pk).first()
+    article = session.query(Article).get_or_404(pk)
     data = request.get_json()
     schema = ArticleSchema()
     updated_data = schema.load(data)
@@ -73,7 +73,7 @@ def delete_article(session, id):
     return create_response(status_code=204)
 
 
-@article_bp.route("<int:id>/publication", methods=['POST'])
+@article_bp.route("<int:id>/publish", methods=['POST'])
 @provide_session
 def publish_article(session, id):
     article = session.query(Article).get_or_404(id)

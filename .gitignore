@@ -3,5 +3,6 @@ env.sh
 test.py
 .idea
 __pycache__/
+.pytest_cache
 *.py[codt]
 *.pyc

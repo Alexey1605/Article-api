@@ -18,7 +18,7 @@ class ArticleManager:
         filter_query = args.get("filter_query")
         sort = args.get("sort")
         sort_order = args.get("sort_order")
-        query = db.session.query(Article)
+        query = db.session.query(Article).filter(Article.status != 'deleted')
 
         if filter_title:
             query = query.filter(Article.title.ilike(f'%{filter_title}%'))

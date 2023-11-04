@@ -19,9 +19,3 @@ class ArticleColumnEnum(Enum):
     @classmethod
     def get_values(cls) -> list[str]:
         return [item.value for item in cls]
-
-
-class ArticleCategoryEnum(Enum):
-    flower = 1
-    car = 2
-    movie = 3

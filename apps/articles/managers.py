@@ -1,4 +1,3 @@
-from flask import Response
 from sqlalchemy import or_
 
 from apps.articles.models import Article
@@ -15,6 +14,7 @@ class ArticleManager:
         filter_updated_date_start = args.get("filter_updated_date_start")
         filter_updated_date_end = args.get("filter_updated_date_end")
         filter_status = args.get("filter_status")
+        filter_category_name = args.get("filter_category_name")
         filter_query = args.get("filter_query")
         sort = args.get("sort")
         sort_order = args.get("sort_order")
@@ -34,6 +34,10 @@ class ArticleManager:
             query = query.filter(Article.updated_date <= filter_updated_date_end)
         if filter_status:
             query = query.filter(Article.status.in_(filter_status))
+        if filter_category_name:
+            query = query.filter(Article.category_name == filter_category_name)
+            print(query)
+
         if filter_query:
             query = query.filter(or_(Article.text.ilike(f'%{filter_query}%'),
                                      Article.title.ilike(f'%{filter_query}%')))
@@ -43,6 +47,3 @@ class ArticleManager:
                 sort_column = sort_column.desc() if sort_order == 'desc' else sort_column.asc()
             query = query.order_by(sort_column)
         return query
-
-
-

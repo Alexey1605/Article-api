@@ -1,0 +1,3 @@
+[flake8]
+exclude = migrations, ./tests, ./apps/composer/status_flow/composer_transitions.py, venv
+max-line-length = 120

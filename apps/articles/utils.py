@@ -11,6 +11,7 @@ def create_response(data: str = None, status_code: int = 200):
 def provide_session(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        session = db.session()
-        return func(*args, session=session, **kwargs)
+        if not kwargs.get('session'):
+            kwargs['session'] = db.session()
+        return func(*args, **kwargs)
     return wrapper

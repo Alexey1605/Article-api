@@ -3,7 +3,8 @@ import pytest
 from apps.articles.models import Article, Category
 from apps.core.app import create_app
 from apps.core.extensions import db
-from test_data import test_articles, test_categories
+from apps.news.models import News
+from test_data import test_articles, test_categories, test_news
 
 
 @pytest.fixture
@@ -36,5 +37,14 @@ def add_categories_data_db(test_client):
     db.session.execute(
         insert(Category),
         test_categories,
+    )
+    db.session.commit()
+
+
+@pytest.fixture
+def add_news_data_db(test_client):
+    db.session.execute(
+        insert(News),
+        test_news,
     )
     db.session.commit()

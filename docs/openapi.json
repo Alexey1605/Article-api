@@ -202,7 +202,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Article"
+                "$ref": "#/components/schemas/PublishSchema"
               }
             }
           },
@@ -214,7 +214,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Article"
+                  "type": "object"
                 }
               }
             }
@@ -346,6 +346,211 @@
           }
         }
       }
+    },
+    "/news/": {
+      "get": {
+        "tags": [
+          "Новости"
+        ],
+        "summary": "Метод получения всех новостей",
+        "description": "Получение всех новостей",
+        "responses": {
+          "200": {
+            "description": "Успешное изменение новости",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/News"
+                      }
+                    },
+                    "page": {
+                      "type": "number"
+                    },
+                    "total_count": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Новости"
+        ],
+        "summary": "Метод добавления новости",
+        "description": "Добавление новой новости в бд",
+        "operationId": "createNews",
+        "requestBody": {
+          "description": "Добавление новой новости",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestNewsSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Успешное создание новости",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос"
+          }
+        }
+      }
+    },
+    "/news/{news_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "required": true,
+          "name": "news_id",
+          "description": "Идентификатор новости"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Новости"
+        ],
+        "summary": "Метод изменения новости",
+        "description": "Редактирование новости",
+        "operationId": "updateNews",
+        "requestBody": {
+          "description": "Редактирование существующей новости",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestNewsSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Успешное изменение новости",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос"
+          },
+          "404": {
+            "description": "Новость не найдена"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Новости"
+        ],
+        "summary": "Метод получения новости",
+        "description": "Получение новости",
+        "responses": {
+          "200": {
+            "description": "Успешное получение новости",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Новость не найдена"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Новости"
+        ],
+        "summary": "Метод удаления новости",
+        "description": "Удаление новости",
+        "operationId": "deleteNews",
+        "responses": {
+          "204": {
+            "description": "Успешное удаление новости"
+          },
+          "404": {
+            "description": "Новость не найдена"
+          }
+        }
+      }
+    },
+    "/news/{news_id}/publish/": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "required": true,
+            "name": "news_id",
+            "description": "Идентификатор новости"
+          }
+        ],
+        "tags": [
+          "Новости"
+        ],
+        "summary": "Метод публикации новости",
+        "description": "Изменение статуса новости на \"Published\"",
+        "operationId": "publishNews",
+        "requestBody": {
+          "description": "Публикация новости",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешная публикация новости",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -464,6 +669,89 @@
           "description": {
             "type": "string",
             "example": "this category about something"
+          }
+        }
+      },
+      "News": {
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "edition"
+        ],
+        "properties": {
+          "news_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "world cup"
+          },
+          "description": {
+            "type": "string",
+            "example": "Argentina won this tournament"
+          },
+          "created_date": {
+            "type": "string",
+            "description": "Дата создания статьи",
+            "format": "date-time",
+            "example": "2019-05-17 14:23:40"
+          },
+          "updated_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Дата изменения статьи",
+            "example": "2019-05-17 14:23:40"
+          },
+          "edition": {
+            "type": "string",
+            "example": "New York Times"
+          },
+          "status": {
+            "type": "string",
+            "description": "Статус статьи",
+            "example": "draft",
+            "enum": [
+              "published",
+              "draft",
+              "deleted"
+            ]
+          }
+        }
+      },
+      "RequestNewsSchema": {
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "edition"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "world cup"
+          },
+          "description": {
+            "type": "string",
+            "example": "Argentina won this tournament"
+          },
+          "edition": {
+            "type": "string",
+            "example": "New York Times"
+          }
+        }
+      },
+      "PublishSchema": {
+        "type": "object",
+        "required": [
+          "is_published"
+        ],
+        "properties": {
+          "is_published": {
+            "type": "boolean",
+            "example": true
           }
         }
       }

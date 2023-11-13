@@ -57,7 +57,7 @@ def get_all_news(args):
     return create_response(dumps(data), status_code=200)
 
 
-@news_bp.route("/<int:id>/", methods=['GET'])
+@news_bp.route("<int:id>/", methods=['GET'])
 @provide_session
 def get_id_news(session, id):
     news = session.query(News).get_or_404(id)

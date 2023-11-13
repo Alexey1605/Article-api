@@ -12,7 +12,6 @@ class NewsSchema(Schema):
     description = fields.String(required=True)
     created_date = fields.DateTime(dump_only=True, format='%Y-%m-%d %H:%M:%S')
     updated_date = fields.DateTime(dump_only=True, format='%Y-%m-%d %H:%M:%S')
-    edition = fields.String(required=True)
     status = fields.String(dump_only=True)
 
     class Meta:
@@ -27,7 +26,6 @@ class NewsFilterSchema(PaginateSchema):
     filter_created_date_end = fields.Date()
     filter_updated_date_start = fields.Date()
     filter_updated_date_end = fields.Date()
-    filter_edition = fields.String()
     filter_status = DelimitedList(fields.Str())
     filter_query = fields.String()
     sort = fields.Str(validate=OneOf(NewsColumnEnum.get_values()))

@@ -7,7 +7,7 @@ from apps.news.models import News
 
 
 def test_add_news(test_client):
-    data = {"title": "world cup", "description": "Argentina win this tournament", "edition": "Marca"}
+    data = {"title": "world cup", "description": "Argentina win this tournament"}
     response = test_client.post("/api/v1/news/", json=data)
     assert response.status_code == 200
     created_news = db.session.query(News).first()
@@ -15,7 +15,7 @@ def test_add_news(test_client):
 
 
 def test_update_news(add_news_data_db, test_client):
-    body = {"title": "test", "description": "About test", "edition": "Sky Sports"}
+    body = {"title": "test", "description": "About test"}
     data = test_client.put("/api/v1/news/1/", json=body)
     assert data.status_code == 201
     updated_news: News = db.session.query(News).filter(News.news_id == 1).first()
@@ -23,7 +23,7 @@ def test_update_news(add_news_data_db, test_client):
 
 
 def test_change_news_not_found(add_news_data_db, test_client):
-    body = {"title": "test", "description": "About test", "edition": "Sky Sports"}
+    body = {"title": "test", "description": "About test"}
     data = test_client.put("/api/v1/news/99/", json=body)
     assert data.status_code == 404
 
@@ -46,9 +46,8 @@ def test_get_news_by_id(add_news_data_db, test_client):
     ({"filter_created_date_end": "2018-04-22"}, 2),
     ({"filter_updated_date_start": "1800-01-22"}, 0),
     ({"filter_status": "published"}, 1),
-    ({"filter_edition": "BBC"}, 1),
     ({"filter_description": "12", "filter_title": "12"}, 2)])
-def test_get_news_with_filter(add_news_data_db, test_client, query_filter, result_count):
+def test_get_news_filter(add_news_data_db, test_client, query_filter, result_count):
     response = test_client.get("/api/v1/news/", query_string=query_filter)
     assert len(response.json.get('items')) == result_count
 
@@ -57,7 +56,7 @@ def test_get_news_with_filter(add_news_data_db, test_client, query_filter, resul
     ("news_id", "asc", 1),
     ("news_id", "desc", 5),
     ("created_date", None, 3)])
-def test_get_news_with_sorted(add_news_data_db, test_client, sort, sort_order, first_result):
+def test_get_news_sort(add_news_data_db, test_client, sort, sort_order, first_result):
     response = test_client.get(f"/api/v1/news/", query_string={'sort': sort, 'sort_order': sort_order})
     assert response.json.get('items')[0]['news_id'] == first_result
 

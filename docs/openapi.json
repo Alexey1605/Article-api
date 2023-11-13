@@ -676,8 +676,7 @@
         "type": "object",
         "required": [
           "title",
-          "description",
-          "edition"
+          "description"
         ],
         "properties": {
           "news_id": {
@@ -705,10 +704,6 @@
             "description": "Дата изменения статьи",
             "example": "2019-05-17 14:23:40"
           },
-          "edition": {
-            "type": "string",
-            "example": "New York Times"
-          },
           "status": {
             "type": "string",
             "description": "Статус статьи",
@@ -725,8 +720,7 @@
         "type": "object",
         "required": [
           "title",
-          "description",
-          "edition"
+          "description"
         ],
         "properties": {
           "title": {
@@ -736,10 +730,6 @@
           "description": {
             "type": "string",
             "example": "Argentina won this tournament"
-          },
-          "edition": {
-            "type": "string",
-            "example": "New York Times"
           }
         }
       },

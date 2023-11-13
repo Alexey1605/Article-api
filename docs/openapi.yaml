@@ -445,7 +445,6 @@ components:
       required:
         - title
         - description
-        - edition
       properties:
         news_id:
           type: integer
@@ -467,9 +466,6 @@ components:
           format: date-time
           description: Дата изменения статьи
           example: "2019-05-17 14:23:40"
-        edition:
-          type: string
-          example: New York Times
         status:
           type: string
           description: Статус статьи
@@ -483,7 +479,6 @@ components:
       required:
         - title
         - description
-        - edition
       properties:
         title:
           type: string
@@ -491,9 +486,6 @@ components:
         description:
           type: string
           example: Argentina won this tournament
-        edition:
-          type: string
-          example: New York Times
     PublishSchema:
       type: object
       required:

@@ -14,7 +14,6 @@ class NewsManager:
         filter_created_date_end = args.get("filter_created_date_end")
         filter_updated_date_start = args.get("filter_updated_date_start")
         filter_updated_date_end = args.get("filter_updated_date_end")
-        filter_edition = args.get("filter_edition")
         filter_status = args.get("filter_status")
         filter_query = args.get("filter_query")
         sort = args.get("sort")
@@ -33,8 +32,6 @@ class NewsManager:
             query = query.filter(News.updated_date >= filter_updated_date_start)
         if filter_updated_date_end:
             query = query.filter(News.updated_date <= filter_updated_date_end)
-        if filter_edition:
-            query = query.filter(News.edition.ilike(f'%{filter_edition}%'))
         if filter_status:
             query = query.filter(News.status.in_(filter_status))
 

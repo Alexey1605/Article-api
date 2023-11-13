@@ -12,5 +12,4 @@ class News(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_date = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_date = db.Column(db.DateTime, onupdate=func.now())
-    edition = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String, nullable=False, default=NewsStatusEnum.DRAFT.value)
